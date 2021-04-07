@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/Users/esertopcu/.dotnet/store/|arch|/|tfm|",
+      "/Users/esertopcu/.nuget/packages"
+    ]
+  }
+}
