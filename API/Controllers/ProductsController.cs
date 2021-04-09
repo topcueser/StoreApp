@@ -10,9 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    // kendimiz BaseApiController yapıp ordan türettik. Süreki ApiController ve Route yazmamak için
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productsRepos;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
