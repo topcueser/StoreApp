@@ -28,13 +28,13 @@ namespace API.Controllers
         }
 
     [HttpGet]
-    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
+    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts(string sort)
     {
         // eski 1
         //var products = await _productsRepos.GetAllAsync();
         //return Ok(products);
 
-        var spec = new ProductWithTypesAndBrandSpecification();
+        var spec = new ProductWithTypesAndBrandSpecification(sort);
 
         var products = await _productsRepos.ListAsync(spec);
 
