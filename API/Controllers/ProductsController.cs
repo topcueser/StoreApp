@@ -31,6 +31,7 @@ namespace API.Controllers
     [HttpGet]
     public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
     {
+        // eski 1
         //var products = await _productsRepos.GetAllAsync();
         //return Ok(products);
 
@@ -38,7 +39,8 @@ namespace API.Controllers
 
         var products = await _productsRepos.ListAsync(spec);
 
-        return products.Select(product => new ProductToReturnDto
+        // eski 2
+        /* return products.Select(product => new ProductToReturnDto
         {
             Id = product.Id,
             Name = product.Name,
@@ -47,7 +49,9 @@ namespace API.Controllers
             Price = product.Price,
             ProductBrand = product.ProductBrand.Name,
             ProductType = product.ProductType.Name
-        }).ToList(); // Async eklenmedi çünkü burası memory üzerinden seçiliyor. Db den gelmiş oluyor.
+        }).ToList(); // Async eklenmedi çünkü burası memory üzerinden seçiliyor. Db den gelmiş oluyor. */
+
+        return Ok(_mapper.Map<List<Product>, List<ProductToReturnDto>>(products));
     }
 
     [HttpGet("{id}")]
