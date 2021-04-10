@@ -27,6 +27,15 @@ namespace API
 
             // Startup kalabalık olmasın. Kendimiz extension yazarak onun içine dahil ettik.
             services.AddApplicationServices();
+
+            // API dışarıdan erişim sağlayacak adres ve özelliklerini belirledik.
+            services.AddCors(opt => 
+            {
+                opt.AddPolicy("CorsPolicy", policy => 
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +47,9 @@ namespace API
 
             app.UseRouting();
             app.UseStaticFiles();
+
+            //Yukarıda ekledigimiz CORS ozelligi
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
