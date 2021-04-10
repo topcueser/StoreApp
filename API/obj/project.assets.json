@@ -1405,7 +1405,9 @@
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 8.1.1",
       "Infrastructure >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.3",
-      "Swashbuckle.AspNetCore >= 5.6.3"
+      "Swashbuckle.AspNetCore >= 5.6.3",
+      "Swashbuckle.AspNetCore.SwaggerGen >= 5.6.3",
+      "Swashbuckle.AspNetCore.SwaggerUI >= 5.6.3"
     ]
   },
   "packageFolders": {
@@ -1460,6 +1462,14 @@
             "version": "[5.0.3, )"
           },
           "Swashbuckle.AspNetCore": {
+            "target": "Package",
+            "version": "[5.6.3, )"
+          },
+          "Swashbuckle.AspNetCore.SwaggerGen": {
+            "target": "Package",
+            "version": "[5.6.3, )"
+          },
+          "Swashbuckle.AspNetCore.SwaggerUI": {
             "target": "Package",
             "version": "[5.6.3, )"
           }

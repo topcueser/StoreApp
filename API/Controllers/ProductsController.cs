@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Errors;
 using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -28,33 +30,7 @@ namespace API.Controllers
             _productsRepos = productsRepos;
         }
 
-    [HttpGet("eskiproductlistesi")]
-    // FromQuery ile form request ile degilde url üzerinde query string ile bind eder.
-    public async Task<ActionResult<List<ProductToReturnDto>>> GetProductsOld([FromQuery]ProductSpecParams productParams)
-    {
-        // eski 1
-        //var products = await _productsRepos.GetAllAsync();
-        //return Ok(products);
-
-        var spec = new ProductWithTypesAndBrandSpecification(productParams);
-
-        var products = await _productsRepos.ListAsync(spec);
-
-        // eski 2
-        /* return products.Select(product => new ProductToReturnDto
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            PictureUrl = product.PictureUrl,
-            Price = product.Price,
-            ProductBrand = product.ProductBrand.Name,
-            ProductType = product.ProductType.Name
-        }).ToList(); // Async eklenmedi çünkü burası memory üzerinden seçiliyor. Db den gelmiş oluyor. */
-
-        return Ok(_mapper.Map<List<Product>, List<ProductToReturnDto>>(products));
-    }
-
+    [HttpGet]
     public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
     {
         var spec = new ProductWithTypesAndBrandSpecification(productParams);
@@ -71,6 +47,8 @@ namespace API.Controllers
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
     {
         //return await _productsRepos.GetByIdAsync(id); // eski 1
@@ -78,6 +56,8 @@ namespace API.Controllers
         var spec = new ProductWithTypesAndBrandSpecification(id);
 
         var product = await _productsRepos.GetEntityWithSpec(spec);
+
+        if(product == null) return NotFound(new ApiResponse(404));
 
         // eski 2
         /* return new ProductToReturnDto

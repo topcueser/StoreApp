@@ -1,0 +1,13 @@
+ANGULAR JS
+-------------
+** npm install -g @angular/cli			[ Angular CLI yüklemek için ]
+
+** ng new my-app						        [ Yeni angular projesi için ]
+
+** ng serve --open					       	[ Projeyi ayağa kaldırmak için ]
+
+** ng g component name				    	[ Yeni component oluşturmak için ]
+
+** ng g c name --skip-tests         [Compent oluştururken test olan dosyaları oluşturmaz]
+
+** ngFor ile döngü kurmak istediğimizde <li *ngFor="let product of products">{{product.productName}}</li> şeklinde yapılır. Burada for döngüsünün başlangıç ve bitiş parantezleri <li> ve </li> oluyor. Bunlar for döngüsündeki eleman kadar tekrarlanır.

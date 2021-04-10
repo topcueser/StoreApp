@@ -27,6 +27,8 @@ namespace API
 
             // Startup kalabalık olmasın. Kendimiz extension yazarak onun içine dahil ettik.
             services.AddApplicationServices();
+            // Swagger için kendi yazdığımız extension. Startup kalabalık olmasın
+            services.AddSwaggerDocumentation();
 
             // API dışarıdan erişim sağlayacak adres ve özelliklerini belirledik.
             services.AddCors(opt => 
@@ -44,6 +46,7 @@ namespace API
             // custom olarak oluşturduğumuz exception sınıfı üzerinden hatalar gösterilecek
             // IsDevelopment() içerisindeki default hata olan app.UseDeveloperExceptionPage() kapattık ve if (env.IsDevelopment()) ı kaldırdık
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseRouting();
             app.UseStaticFiles();
@@ -52,6 +55,9 @@ namespace API
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
+
+            // Startup kalabalık olmasın diye yazdığımız extension
+            app.UseSwaggerDocumention();
 
             app.UseEndpoints(endpoints =>
             {
