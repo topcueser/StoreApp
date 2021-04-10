@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -27,14 +28,15 @@ namespace API.Controllers
             _productsRepos = productsRepos;
         }
 
-    [HttpGet]
-    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts(string sort)
+    [HttpGet("eskiproductlistesi")]
+    // FromQuery ile form request ile degilde url üzerinde query string ile bind eder.
+    public async Task<ActionResult<List<ProductToReturnDto>>> GetProductsOld([FromQuery]ProductSpecParams productParams)
     {
         // eski 1
         //var products = await _productsRepos.GetAllAsync();
         //return Ok(products);
 
-        var spec = new ProductWithTypesAndBrandSpecification(sort);
+        var spec = new ProductWithTypesAndBrandSpecification(productParams);
 
         var products = await _productsRepos.ListAsync(spec);
 
@@ -51,6 +53,21 @@ namespace API.Controllers
         }).ToList(); // Async eklenmedi çünkü burası memory üzerinden seçiliyor. Db den gelmiş oluyor. */
 
         return Ok(_mapper.Map<List<Product>, List<ProductToReturnDto>>(products));
+    }
+
+    public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
+    {
+        var spec = new ProductWithTypesAndBrandSpecification(productParams);
+
+        var countSpec = new ProductWithFiltersForCountSpecification(productParams);
+
+        var totalItems = await _productsRepos.CountAsync(countSpec);
+
+        var products = await _productsRepos.ListAsync(spec);
+
+        var data = _mapper.Map<List<Product>, List<ProductToReturnDto>>(products);
+
+        return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
     }
 
     [HttpGet("{id}")]
