@@ -10,4 +10,8 @@ ANGULAR JS
 
 ** ng g c name --skip-tests         [Compent oluştururken test olan dosyaları oluşturmaz]
 
+** ng g m name                      [ m : module --> modul oluşturmak için]
+
+** ng g s name                      [ s : service oluşturmak için kullanılır]
+
 ** ngFor ile döngü kurmak istediğimizde <li *ngFor="let product of products">{{product.productName}}</li> şeklinde yapılır. Burada for döngüsünün başlangıç ve bitiş parantezleri <li> ve </li> oluyor. Bunlar for döngüsündeki eleman kadar tekrarlanır.
